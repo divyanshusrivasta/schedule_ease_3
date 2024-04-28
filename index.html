@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Scheduler</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+ 
+
+  <nav>
+    <ul>
+      <img class="logo-img" src="l1.jpg" alt="Company Logo">
+      <li>SCHEDULE EASE</li>
+    </ul>
+</nav>
+  <div class="container">
+    <h1>Schedule Your Task</h1>
+    <form id="taskForm">
+      <label for="title">Title:</label>
+      <input type="text" id="title" required placeholder="Enter The Title...">
+      <label for="description">Description:</label>
+      <input type="text" id="description" required placeholder="Describe your Task...">
+      <label for="priority">Priority:</label>
+      <select id="priority">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+      <label for="dueDate">Due Date:</label>
+      <input type="datetime-local" id="dueDate">
+      <button type="submit">Add Task</button>
+    </form>
+    <div id="taskList"></div>
+
+   
+  </div>
+
+  <footer>
+    <p>Copyright © 2024. All rights reserved. Contact: divyanshu69@gmail.com</p>
+</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
