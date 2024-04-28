@@ -1,5 +1,15 @@
 const taskForm = document.getElementById('taskForm');
 const taskList = document.getElementById('taskList');
+let tasks = [];
+
+// Load tasks from local storage on page load
+document.addEventListener('DOMContentLoaded', function () {
+  const storedTasks = JSON.parse(localStorage.getItem('tasks'));
+  if (storedTasks) {
+    tasks = storedTasks;
+    tasks.forEach(task => displayTask(task));
+  }
+});
 
 taskForm.addEventListener('submit', function(e) {
   e.preventDefault();
@@ -13,6 +23,7 @@ function addTask() {
   const dueDate = document.getElementById('dueDate').value;
 
   const task = {
+    id: Date.now(),
     title,
     description,
     priority,
@@ -20,7 +31,9 @@ function addTask() {
     completed: false
   };
 
+  tasks.push(task);
   displayTask(task);
+  saveTasksToLocalStorage();
   taskForm.reset();
 }
 
@@ -35,18 +48,29 @@ function displayTask(task) {
     <p>Description: ${task.description}</p>
     <p>Priority: ${task.priority}</p>
     <p>Due Date: ${task.dueDate}</p>
-    <button onclick="completeTask(this)">Mark as Done</button>
-    <button onclick="removeTask(this)">Remove</button>
+    <button onclick="completeTask(${task.id})">Mark as Done</button>
+    <button onclick="removeTask(${task.id})">Remove</button>
   `;
-  taskList.appendChild(taskDiv);
+  taskList.prepend(taskDiv);
 }
 
-function completeTask(button) {
-  const taskDiv = button.parentElement;
-  taskDiv.classList.toggle('completed');
+function completeTask(taskId) {
+  const taskIndex = tasks.findIndex(task => task.id === taskId);
+  if (taskIndex !== -1) {
+    tasks[taskIndex].completed = !tasks[taskIndex].completed;
+    saveTasksToLocalStorage();
+    taskList.innerHTML = '';
+    tasks.forEach(task => displayTask(task));
+  }
 }
 
-function removeTask(button) {
-  const taskDiv = button.parentElement;
-  taskDiv.remove();
+function removeTask(taskId) {
+  tasks = tasks.filter(task => task.id !== taskId);
+  saveTasksToLocalStorage();
+  taskList.innerHTML = '';
+  tasks.forEach(task => displayTask(task));
+}
+
+function saveTasksToLocalStorage() {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
 }
